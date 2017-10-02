@@ -4,6 +4,7 @@ import { createHashHistory } from 'history'
 import { routerMiddleware, routerActions } from 'react-router-redux'
 import { createLogger } from 'redux-logger'
 import rootReducer from '../reducers'
+import * as stopwatchActions from '../actions/stopwatch'
 
 const history = createHashHistory()
 
@@ -28,7 +29,8 @@ const configureStore = initialState => {
 
   // Redux DevTools Configuration
   const actionCreators = {
-    ...routerActions
+    ...routerActions,
+    ...stopwatchActions
   }
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */

@@ -1,4 +1,6 @@
 import React from 'react'
-import Start from '../components/Start'
+import StartPage from '../components/startpage/StartPage'
 
-export default () => <Start />
+export default () => (
+  <StartPage />
+)

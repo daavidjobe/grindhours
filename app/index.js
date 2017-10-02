@@ -7,7 +7,7 @@ import './app.global.scss'
 
 const store = configureStore()
 
-render(
+    render(
   <AppContainer>
     <Root store={store} history={history} />
   </AppContainer>,

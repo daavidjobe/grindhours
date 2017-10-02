@@ -1,11 +1,14 @@
 @import "~font-awesome/css/font-awesome.css";
+@import './variables.scss';
 
 body {
   position: relative;
+  margin: 0;
   color: white;
   height: 100vh;
-  background-color: mediumaquamarine;
+  background-color: $bg-color;
   overflow-y: hidden;
+  font-family: 'Arial';
 }
 
 h1,
@@ -16,13 +19,14 @@ h5,
 h6 {
   margin: 0;
   font-size: 2.25rem;
-  font-weight: 100;
+  font-weight: 400;
   letter-spacing: -0.025em;
-  color: #fff;
+  color: $primary-color;
 }
 
 p {
   font-size: 2rem;
+  color: #000;
 }
 
 li {
@@ -30,7 +34,7 @@ li {
 }
 
 a {
-  color: white;
+  color: $primary-color;
   opacity: 0.75;
   text-decoration: none;
 }
@@ -39,4 +43,5 @@ a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
+  color: $secondary-color;
 }

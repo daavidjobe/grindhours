@@ -1,0 +1,11 @@
+@import '../../variables.scss';
+
+.navigationTop {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+
+  li {
+    margin: 0 $small-marg;
+  }
+}

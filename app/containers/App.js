@@ -1,5 +1,13 @@
 import React from 'react'
+import Header from '../components/header/Header'
+import TopNav from '../components/top-nav/TopNav'
 
 export default props => (
-  <div>{ props.children }</div>
+  <div>
+    <Header>
+      <h1>grindhours</h1>
+      <TopNav />
+    </Header>
+    { props.children }
+  </div>
 )
