@@ -1,4 +1,4 @@
-import { START, STOP, INCREMENT } from '../actions/stopwatch'
+import { START, STOP, INCREMENT, RESET } from '../actions/stopwatch'
 
 const initialState = {
   running: false,
@@ -11,40 +11,45 @@ const initialState = {
 
 const time = () => new Date().getTime()
 
-const calculate = ({ clock }, prev) => {
+const calculate = prev => {
   const diff = new Date(time() - prev)
   const seconds = diff.getSeconds() 
   const minutes = diff.getMinutes() 
   const hours = diff.getHours() - 1 
-  console.log(`${hours}:${minutes}:${seconds}`)
   return {
     seconds,
     minutes,
     hours
   }
 }
+// TODO: add increment logic to component
+// re-implment these actions
+// make the clock object flat
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case START:
-      if (state.running === true) {
-        return
-      }
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         running: true,
-        startTime: time()
+        startTime: state.startTime ? state.startTime : time()
       })
     case STOP:
-      if (!state.running) {
-        return
-      }
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         running: false,
-        startTime: undefined
+        stopTime: time()
       })
     case INCREMENT:
-      return Object.assign(state, {
-        clock: calculate(state, state.startTime || 0)
+      const prev = state.stopTime ? state.stopTime : state.startTime
+      return Object.assign({}, state, {
+        clock: calculate(prev || 0)
+        stopTime: undefined
+      })
+    case RESET:
+      return Object.assign({}, state, {
+        clock: { hours: 0, minutes: 0, seconds: 0 },
+        running: false,
+        startTime: undefined,
+        stopTime: undefined
       })
     default:
       return state

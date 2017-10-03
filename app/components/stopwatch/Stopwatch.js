@@ -14,12 +14,13 @@ export default class Stopwatch extends Component {
     this.props.start()
     interval = setInterval(() => {
       this.props.increment()
-    }, 900)
+    }, 1000)
     this.setState({ interval })
   }
 
   stop = () => {
     clearInterval(this.state.interval)
+    this.props.stop()
     this.setState({
       interval: undefined
     })
