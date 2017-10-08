@@ -1,37 +1,34 @@
 import React, { Component } from 'react'
-import { padded } from '../../helpers/time'
+import { padded, clockTimer } from '../../helpers/time'
+
+// TODO: Make a function out of this
 
 export default class Stopwatch extends Component {
-  state = {
-    interval: undefined
-  }
+  
+  static tick = () => {}
 
   start = () => {
-    let { interval } = this.state
-    if (interval) {
-      return
-    }
     this.props.start()
-    interval = setInterval(() => {
-      this.props.increment()
-    }, 1000)
-    this.setState({ interval })
+    this.update.clear = false
+    Stopwatch.tick = clockTimer(this.update)
   }
 
   stop = () => {
-    clearInterval(this.state.interval)
     this.props.stop()
-    this.setState({
-      interval: undefined
-    })
+    clearTimeout(Stopwatch.tick)
+    this.update.clear = true
+  }
+
+  update = () => {
+    this.props.increment()
   }
 
   render () {
-    const { clock } = this.props.stopwatch
+    const { hours, minutes, seconds } = this.props.stopwatch
     return (
       <div>
         <div>
-          {`${padded(clock.hours)}:${padded(clock.minutes)}:${padded(clock.seconds)}`}
+          {`${padded(hours)}:${padded(minutes)}:${padded(seconds)}`}
         </div>
         <button onClick={this.start}>start</button>
         <button onClick={this.stop}>stop</button>

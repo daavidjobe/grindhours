@@ -2,54 +2,57 @@ import { START, STOP, INCREMENT, RESET } from '../actions/stopwatch'
 
 const initialState = {
   running: false,
-  clock: {
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  }
+  hours: 0,
+  minutes: 0,
+  seconds: 0
 }
 
-const time = () => new Date().getTime()
+const setSeconds = prev => prev.seconds === 59 ? 0 : prev.seconds + 1
+
+const setMinutes = prev => {
+  if (prev.seconds !== 59) {
+    return prev.minutes
+  }
+  if (prev.minutes === 59 && prev.seconds === 59) {
+    return 0
+  }
+  return prev.minutes + 1
+}
+
+const setHours = prev => {
+  if (prev.minutes === 59 && prev.seconds === 59) {
+    return prev.hours + 1
+  } else {
+    return prev.hours
+  }
+}
 
 const calculate = prev => {
-  const diff = new Date(time() - prev)
-  const seconds = diff.getSeconds() 
-  const minutes = diff.getMinutes() 
-  const hours = diff.getHours() - 1 
   return {
-    seconds,
-    minutes,
-    hours
+    seconds: setSeconds(prev),
+    minutes: setMinutes(prev),
+    hours: setHours(prev)
   }
 }
-// TODO: add increment logic to component
-// re-implment these actions
-// make the clock object flat
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case START:
       return Object.assign({}, state, {
-        running: true,
-        startTime: state.startTime ? state.startTime : time()
+        running: true
       })
     case STOP:
       return Object.assign({}, state, {
-        running: false,
-        stopTime: time()
+        running: false
       })
     case INCREMENT:
-      const prev = state.stopTime ? state.stopTime : state.startTime
+      if (state.running === false) return state
       return Object.assign({}, state, {
-        clock: calculate(prev || 0)
-        stopTime: undefined
+        ...calculate(state)
       })
     case RESET:
       return Object.assign({}, state, {
-        clock: { hours: 0, minutes: 0, seconds: 0 },
-        running: false,
-        startTime: undefined,
-        stopTime: undefined
+        running: false
       })
     default:
       return state
